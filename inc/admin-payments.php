@@ -49,6 +49,13 @@ function sell_media_add_payment_meta_boxes(){
 }
 add_action( 'add_meta_boxes', 'sell_media_add_payment_meta_boxes' );
 
+/**
+ * Remove the Publish metabox from Payments post type
+ */
+function sell_media_remove_publish_box() {
+	remove_meta_box( 'submitdiv', 'sell_media_payment', 'side' );
+}
+add_action( 'admin_menu', 'sell_media_remove_publish_box' );
 
 /**
  * Our callback for the payment meta fields, this prints out
@@ -173,7 +180,7 @@ function sell_media_payment_gateway_details( $post ){
 		$arguments = $stripe_args;
 		$gateway = __( 'Stripe', 'sell_media' );
 	}
-	echo '<p>' . __( 'This is the data that was sent from ', 'sell_media' ) . $gateway . __( ' at time of purchase. Use this for debugging, if needed.', 'sell_media' ) . '</p>';
+	echo '<p>' . __( 'This is the data that was sent from ', 'sell_media' ) . $gateway . __( ' at time of purchase.', 'sell_media' ) . '</p>';
 	echo '<ul>';
 	if ( $arguments ) foreach ( $arguments as $k => $v ) {
 		echo '<li><strong>' . $k . ':</strong> ' . ( ( is_array( $v) || is_object( $v ) ) ? serialize( $v ) : $v ) . '</li>';
